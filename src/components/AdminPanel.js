@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import { FaUsers, FaChartLine, FaChartBar, FaVideo, FaCalculator } from 'react-icons/fa';
 import UserList from './admin/UserList';
 import UserContent from './admin/UserContent';
@@ -10,6 +10,15 @@ import SCJCalculator from './admin/SCJCalculator';
 
 const AdminPanel = () => {
   const [showCalculator, setShowCalculator] = useState(false);
+  const location = useLocation();
+
+  // Helper function to check if a link is active
+  const isActive = (path) => {
+    if (path === '/admin') {
+      return location.pathname === '/admin';
+    }
+    return location.pathname.startsWith(path);
+  };
 
   return (
     <div>
@@ -21,19 +30,28 @@ const AdminPanel = () => {
           </Link>
           <ul className="navbar-nav">
             <li>
-              <Link to="/admin" className="nav-link">
+              <Link 
+                to="/admin" 
+                className={`nav-link ${isActive('/admin') ? 'active' : ''}`}
+              >
                 <FaVideo style={{ marginRight: '4px' }} />
                 All Content
               </Link>
             </li>
             <li>
-              <Link to="/admin/users" className="nav-link">
+              <Link 
+                to="/admin/users" 
+                className={`nav-link ${isActive('/admin/users') ? 'active' : ''}`}
+              >
                 <FaUsers style={{ marginRight: '4px' }} />
                 Users
               </Link>
             </li>
             <li>
-              <Link to="/admin/analytics" className="nav-link">
+              <Link 
+                to="/admin/analytics" 
+                className={`nav-link ${isActive('/admin/analytics') ? 'active' : ''}`}
+              >
                 <FaChartBar style={{ marginRight: '4px' }} />
                 Platform Analytics
               </Link>
